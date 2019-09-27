@@ -1,0 +1,45 @@
+# Contact Information
+contact:
+  responsible: DevOps
+  slack:
+    notifications: #devops-notifications
+
+helm:
+  chart: ace/golang
+  version: ^8.0.0
+
+  registry: evrydevopsprod.azurecr.io
+
+  name: reference-go
+
+  values:
+    liveness:
+      enabled: false
+      path: /healthz
+    readiness:
+      enabled: false
+      path: /healthz
+    metrics:
+      enabled: false
+
+environments:
+  test:
+    cluster: kubernetes.maze-test
+    namespace: toolbox-test
+    # values:
+      # environment:
+      #   - name: "PG_USER"
+      #     value: "vault:secret/auth/db-info#user"
+      #   - name: "PG_PASSWORD"
+      #     value: "vault:secret/auth/db#password"
+      #   - name: "PG_HOST"
+      #     value: "vault:secret/auth/db-info#host"
+      #   - name: "PG_SSLMODE"
+      #     value: "require"
+    values:
+      ingress:
+        enabled: true
+        hosts:
+          - toolbox.test.maze.evry.site
+      cert:
+        enabled: true
